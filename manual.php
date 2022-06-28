@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is a direct copy of core login/index.php but removing the alternate login url redirect.
+ * This is a direct copy of core login/index.php but removing the alternate login and auth login page hooks to prevent url redirect.
  *
  * @package    core
  * @subpackage auth
@@ -23,8 +23,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require('../config.php');
-require_once('lib.php');
+require_once('../../config.php');
+require_once($CFG->dirroot.'/login/lib.php');
 
 redirect_if_major_upgrade_required();
 
@@ -82,12 +82,6 @@ $frm  = false;
 $user = false;
 
 $authsequence = get_enabled_auth_plugins(); // Auths, in sequence.
-foreach($authsequence as $authname) {
-    $authplugin = get_auth_plugin($authname);
-    // The auth plugin's loginpage_hook() can eventually set $frm and/or $user.
-    $authplugin->loginpage_hook();
-}
-
 
 /// Define variables used in page
 $site = get_site();
@@ -355,6 +349,7 @@ if (isloggedin() and !isguestuser()) {
     echo $OUTPUT->box_end();
 } else {
     $loginform = new \core_auth\output\login($authsequence, $frm->username);
+    $loginform->loginurl = new moodle_url('/local/login/manual.php');
     $loginform->set_error($errormsg);
     echo $OUTPUT->render($loginform);
 }
