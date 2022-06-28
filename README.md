@@ -1,8 +1,11 @@
 # Login splashpage #
+When presenting a login page that contains a form - many users will ignore all links on the page, and just enter their username/password into the form, forgetting they should use a "Login with Microsoft" or "Login via SAML" button on the page.
 
-TODO Describe the plugin shortly here.
+This plugin provides a custom splash page that only shows the IDP/SSO buttons and (optionally) a link to the manual Moodle login form.
 
-TODO Provide more detailed description here.
+Once installed, set the alternateloginurl setting in moodle to yourmoodleurl/local/login/index.php 
+
+Note: If you want users to be able to use the manual login form, a custom patch is required - see patch.txt file in this repository for this.
 
 ## Installing via uploaded ZIP file ##
 
