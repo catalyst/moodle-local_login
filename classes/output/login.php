@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -42,7 +41,7 @@ class login {
         $output = '';
         $output .= \html_writer::start_tag('div', array('id' => 'local-login-options', 'class' => 'container-fluid'));
 
-        $authsequence = get_enabled_auth_plugins(); // Get all auths, in sequence.        
+        $authsequence = get_enabled_auth_plugins(); // Get all auths, in sequence.
         foreach ($authsequence as $authname) {
             $authplugin = get_auth_plugin($authname);
             $potentialidps = $authplugin->loginpage_idp_list($wantsurl);

@@ -5,7 +5,7 @@ This plugin provides a custom splash page that only shows the IDP/SSO buttons an
 
 Once installed, set the alternateloginurl setting in moodle to yourmoodleurl/local/login/index.php 
 
-Note: If you want users to be able to use the manual login form, a custom patch is required - see patch.txt file in this repository for this.
+Note: If you want users to be able to use the manual login form, a custom patch is required - see noredirectpatch.txt file in this repository for this.
 
 ## Installing via uploaded ZIP file ##
 

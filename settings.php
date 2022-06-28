@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die;
 if ($hassiteconfig) { // Needs this condition or there is error on login page.
     $settings = new admin_settingpage(
         'local_login_settings', get_string('settings', 'local_login'));
-    
+
     $settings->add(new admin_setting_configcheckbox('local_login/showmanual',
         get_string('showmanual', 'local_login'),
         get_string('showmanual_desc', 'local_login'),
