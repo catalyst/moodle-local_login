@@ -18,11 +18,8 @@
 /**
  * Generalised login page
  * @copyright  Catalyst IT 2022
- * @author  Sasha Anastasi <sasha.anastasi@catalyst.net.nz>,
- *          Jonathan Harker <jonathan@catalyst.net.nz>,
- *          Eugene Venter <eugene@catalyst.net.nz>
- * @package local_login
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_login
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace local_login\output;
@@ -40,42 +37,45 @@ class login {
      */
     public static function output_login_options($wantsurl) {
         // Could have used a renderer, but just nicer to have everything in the same file.
-        global $OUTPUT;
-
+        $config = get_config('local_login');
         // Output.
         $output = '';
         $output .= \html_writer::start_tag('div', array('id' => 'local-login-options', 'class' => 'container-fluid'));
 
-        $authsequence = get_enabled_auth_plugins(); // Get all auths, in sequence.
-        $potentialidps = array();
+        $authsequence = get_enabled_auth_plugins(); // Get all auths, in sequence.        
         foreach ($authsequence as $authname) {
             $authplugin = get_auth_plugin($authname);
-            $potentialidps = array_merge($potentialidps, $authplugin->loginpage_idp_list($this->page->url->out(false)));
-        }
+            $potentialidps = $authplugin->loginpage_idp_list($wantsurl);
 
-        if (!empty($potentialidps)) {
-            foreach ($potentialidps as $idp) {
-                $output .= \html_writer::start_tag('div', array('class' => 'idp-login container-fluid'));
-                $output .= '<a class="btn btn-secondary btn-block" ';
-                $output .= 'href="' . $idp['url']->out() . '" title="' . s($idp['name']) . '">';
-                if (!empty($idp['iconurl'])) {
-                    $output .= '<img src="' . s($idp['iconurl']) . '" width="24" height="24" class="mr-1"/>';
+            if (!empty($potentialidps)) {
+                foreach ($potentialidps as $idp) {
+                    $output .= \html_writer::start_tag('div', array('class' => 'idp-login container-fluid '. $authname));
+                    $name = '';
+                    if (!empty($idp['iconurl'])) {
+                        $name .= '<img src="' . s($idp['iconurl']) . '" width="24" height="24" class="mr-1"/>';
+                    }
+                    $name .= s($idp['name']);
+                    $attributes = ['class' => 'btn btn-secondary btn-block', 'title' => s($idp['name'])];
+                    $output .= \html_writer::link($idp['url'], $name, $attributes);
+
+                    $output .= \html_writer::end_tag('div');
                 }
-                $output .= s($idp['name']) . '</a>';
-                $output .= \html_writer::end_tag('div');
             }
         }
+        if (!empty($config->showmanual)) {
+            // Now display link to manual login page.
+            $urlparams = [
+                'noredirect' => 1,
+                'passive' => 'off' // Prevent Saml2 from triggering passive check on manual login page.
+            ];
+            $manualloginurl = new \moodle_url('/login/index.php', $urlparams);
 
-        // Now display link to manual login page.
-        $urlparams = [
-            'noredirect' => 1,
-            'passive' => 'off'
-        ];
-        $manualloginurl = new \moodle_url('/login/index.php', $urlparams);
-        $output .= \html_writer::start_tag('div', array('class' => 'manual-login container-fluid'));
-        $output .= \html_writer::tag('p', get_string('manuallogindesc', 'local_pickerpage'), array('class' => 'option-desc'));
-        $output .= $OUTPUT->single_button($manualloginurl, get_string('manuallogin', 'local_pickerpage'), 'get');
-        $output .= \html_writer::end_tag('div');
+            $output .= \html_writer::start_tag('div', array('class' => 'idp-login container-fluid manual'));
+            $name = !empty($config->custommanualtext) ? $config->custommanualtext : get_string('manuallogin', 'local_login');
+            $attributes = ['class' => 'btn btn-secondary btn-block', 'title' => $name];
+            $output .= \html_writer::link($manualloginurl, $name, $attributes);
+            $output .= \html_writer::end_tag('div');
+        }
 
         $output .= \html_writer::end_tag('div');
 
