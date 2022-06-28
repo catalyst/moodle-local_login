@@ -25,6 +25,7 @@
 
 require_once('../../config.php');
 require_once($CFG->dirroot.'/login/lib.php');
+require_once($CFG->libdir.'/authlib.php');
 
 redirect_if_major_upgrade_required();
 
