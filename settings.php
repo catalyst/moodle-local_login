@@ -46,6 +46,12 @@ if ($hassiteconfig) { // Needs this condition or there is error on login page.
         '')
     );
 
+    $settings->add(new admin_setting_configtextarea('local_login/beforemanualtext',
+        get_string('beforemanualtext', 'local_login'),
+        get_string('beforemanualtext_desc', 'local_login'),
+        '')
+    );
+
     $settings->add(new admin_setting_configtextarea('local_login/footertext',
         get_string('footertext', 'local_login'),
         get_string('footertext_desc', 'local_login'),

@@ -62,6 +62,9 @@ class login {
             }
         }
         if (!empty($config->showmanual)) {
+            if (!empty($config->beforemanualtext)) {
+                $output .= $config->beforemanualtext;
+            }
             // Now display link to manual login page.
             $urlparams = [
                 'noredirect' => 1,
