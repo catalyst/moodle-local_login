@@ -27,6 +27,12 @@ require_once('../../config.php');
 require_once($CFG->dirroot.'/login/lib.php');
 require_once($CFG->libdir.'/authlib.php');
 
+$config = get_config('local_login');
+if (empty($config->usecustommanual)) {
+    echo get_string("customlogindisabled", "local_login");
+    die;
+}
+
 redirect_if_major_upgrade_required();
 
 $testsession = optional_param('testsession', 0, PARAM_INT); // test session works properly

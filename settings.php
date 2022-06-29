@@ -34,6 +34,12 @@ if ($hassiteconfig) { // Needs this condition or there is error on login page.
         1)
     );
 
+    $settings->add(new admin_setting_configcheckbox('local_login/usecustommanual',
+        get_string('usecustommanual', 'local_login'),
+        get_string('usecustommanual_desc', 'local_login'),
+        0)
+    );
+
     $settings->add(new admin_setting_configtext('local_login/custommanualtext',
         get_string('custommanualtext', 'local_login'),
         get_string('custommanualtext_desc', 'local_login'),
