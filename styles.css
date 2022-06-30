@@ -1,10 +1,10 @@
 #page-local-login-index #local-login-options {
     display: flex;
-    flex-wrap: wrap
+    flex-wrap: wrap;
 }
 
 #page-local-login-index #local-login-options .idp-login.container-fluid {
-   padding: .3rem 1.2rem 0;
+    padding: .3rem 1.2rem 0;
 }
 
 @media only screen and (min-width: 768px) {
