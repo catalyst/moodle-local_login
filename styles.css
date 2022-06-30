@@ -1,0 +1,21 @@
+#page-local-login-index #local-login-options {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#page-local-login-index #local-login-options .idp-login.container-fluid {
+    padding: .3rem 1.2rem 0;
+}
+
+@media only screen and (min-width: 768px) {
+    #page-local-login-index #local-login-options .idp-login.container-fluid {
+        flex: 1 1 33.3333%;
+    }
+}
+
+#page-local-login-index #local-login-options .idp-login.container-fluid .btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5rem;
+}
