@@ -62,9 +62,6 @@ class login {
             }
         }
         if (!empty($config->showmanual)) {
-            if (!empty($config->beforemanualtext)) {
-                $output .= $config->beforemanualtext;
-            }
             // Now display link to manual login page.
             $urlparams = [
                 'noredirect' => 1,
@@ -77,6 +74,9 @@ class login {
             }
 
             $output .= \html_writer::start_tag('div', array('class' => 'idp-login container-fluid manual'));
+            if (!empty($config->beforemanualtext)) {
+                $output .= \html_writer::span($config->beforemanualtext, 'beforemanual');
+            }
             $name = !empty($config->custommanualtext) ? $config->custommanualtext : get_string('manuallogin', 'local_login');
             $attributes = ['class' => 'btn btn-secondary btn-block', 'title' => $name];
             $output .= \html_writer::link($manualloginurl, $name, $attributes);

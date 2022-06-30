@@ -1,6 +1,7 @@
 #page-local-login-index #local-login-options {
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-end;
 }
 
 #page-local-login-index #local-login-options .idp-login.container-fluid {
