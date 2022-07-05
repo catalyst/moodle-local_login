@@ -55,13 +55,13 @@ echo $OUTPUT->header();
 
 $config = get_config('local_login');
 if (!empty($config->headertext)) {
-    echo $config->headertext;
+    echo format_text($config->headertext);
 }
 
 echo \local_login\output\login::output_login_options($wantsurl);
 
 if (!empty($config->footertext)) {
-    echo $config->footertext;
+    echo format_text($config->footertext);
 }
 
 echo $OUTPUT->footer();

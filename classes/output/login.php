@@ -75,9 +75,9 @@ class login {
 
             $output .= \html_writer::start_tag('div', array('class' => 'idp-login container-fluid manual'));
             if (!empty($config->beforemanualtext)) {
-                $output .= \html_writer::span($config->beforemanualtext, 'beforemanual');
+                $output .= \html_writer::span(format_text($config->beforemanualtext), 'beforemanual');
             }
-            $name = !empty($config->custommanualtext) ? $config->custommanualtext : get_string('manuallogin', 'local_login');
+            $name = !empty($config->custommanualtext) ? format_string($config->custommanualtext) : get_string('manuallogin', 'local_login');
             $attributes = ['class' => 'btn btn-secondary btn-block', 'title' => $name];
             $output .= \html_writer::link($manualloginurl, $name, $attributes);
             $output .= \html_writer::end_tag('div');
