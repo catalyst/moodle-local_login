@@ -64,5 +64,12 @@ if ($hassiteconfig) { // Needs this condition or there is error on login page.
         '')
     );
 
+    $settings->add(new admin_setting_configstoredfile('local_login/backgroundimage',
+        get_string('backgroundimage', 'local_login'),
+        get_string('backgroundimage_desc', 'local_login'), 'backgroundimage', 0,
+        array('maxfiles' => 1)
+        )
+    );
+
     $ADMIN->add('localplugins', $settings);
 }
