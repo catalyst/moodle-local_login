@@ -43,3 +43,5 @@ $string['settings'] = 'Login splash page settings';
 $string['usecustommanual'] = 'Use custom manual login';
 $string['usecustommanual_desc'] = 'If you have not applied the noredirect.patch on your site, this box must be ticked for the manual login page to work.';
 $string['customlogindisabled'] = 'Site settings prevent this page from being used.';
+$string['backgroundimage'] = 'Background image';
+$string['backgroundimage_desc'] = 'Background image that appears on the local login page.';

@@ -23,6 +23,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die;
+require_once(__DIR__ . '/lib.php');
 
 if ($hassiteconfig) { // Needs this condition or there is error on login page.
     $settings = new admin_settingpage(
@@ -61,8 +62,16 @@ if ($hassiteconfig) { // Needs this condition or there is error on login page.
     $settings->add(new admin_setting_configtextarea('local_login/footertext',
         get_string('footertext', 'local_login'),
         get_string('footertext_desc', 'local_login'),
-        '')
+    	'')
     );
+
+    $backgroundimage = new admin_setting_configstoredfile(
+        'local_login/backgroundimage',
+        get_string('backgroundimage', 'local_login'),
+        get_string('backgroundimage_desc', 'local_login'),
+        'backgroundimage', 0, array('maxfiles' => 1));
+    $backgroundimage->set_updatedcallback('local_login_backgroundimage');
+    $settings->add($backgroundimage);
 
     $ADMIN->add('localplugins', $settings);
 }
