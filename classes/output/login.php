@@ -85,8 +85,6 @@ class login {
 
         $output .= \html_writer::end_tag('div');
 
-
-
         return $output;
     }
 }

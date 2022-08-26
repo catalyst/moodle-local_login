@@ -51,8 +51,11 @@ $site = get_site();
 $PAGE->navbar->ignore_active();
 $loginsite = get_string("loginsite");
 $PAGE->navbar->add($loginsite);
+<<<<<<< HEAD
 
 $OUTPUT = $PAGE->get_renderer('local_login');
+=======
+>>>>>>> parent of 5ac569e (Added background image to the login page)
 echo $OUTPUT->header();
 
 $config = get_config('local_login');
