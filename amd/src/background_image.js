@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Save / updates the grade by the APT Assessor.
+ * Updates the background image of the login page.
  *
  * @package   local_login
  * @author    Sumaiya Javed <sumaiya.javed@catalyst.net.nz>
