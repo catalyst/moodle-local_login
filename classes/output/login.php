@@ -85,23 +85,7 @@ class login {
 
         $output .= \html_writer::end_tag('div');
 
-        // Load background image.
-        $fs = get_file_storage();
-        $context = \context_system::instance();
-        $files = $fs->get_area_files($context->id, 'local_login', 'backgroundimage', 0, 'filepath, filename', false);
-        if ($files) {
-            foreach ($files as $file) {
-                $url = \moodle_url::make_pluginfile_url(
-                    $file->get_contextid(),
-                    $file->get_component(),
-                    $file->get_filearea(),
-                    $file->get_itemid(),
-                    $file->get_filepath(),
-                    $file->get_filename()
-                );
-            }
-            $output .= \html_writer::div($url, 'backgroundimage', array('style' => 'display:none'));
-        }
+
 
         return $output;
     }

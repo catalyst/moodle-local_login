@@ -52,6 +52,7 @@ $PAGE->navbar->ignore_active();
 $loginsite = get_string("loginsite");
 $PAGE->navbar->add($loginsite);
 
+$OUTPUT = $PAGE->get_renderer('local_login');
 echo $OUTPUT->header();
 
 $config = get_config('local_login');
@@ -60,9 +61,7 @@ if (!empty($config->headertext)) {
 }
 
 echo \local_login\output\login::output_login_options($wantsurl);
-if (!empty($config->backgroundimage)) {
-    $PAGE->requires->js_call_amd('local_login/background_image', 'init');
-}
+
 if (!empty($config->footertext)) {
     echo format_text($config->footertext);
 }
