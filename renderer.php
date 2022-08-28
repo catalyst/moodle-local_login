@@ -26,53 +26,21 @@
 defined('MOODLE_INTERNAL') || die();
 
 class local_login_renderer extends plugin_renderer_base {
+    /**
+     * Add div with background image to header
+     * @param string The url of the background image
+     * @return string
+     */
+    public function render_backgroundimage($url) {
+        $output = "<div class='backgroundimage' style='background-image: url(\" ". $url ." \" )'>";
+        return $output;
+    }
 
     /**
-     * Returns the header for the lesson module
+     * Closes the div with the background image
      *
-     * @param lesson $lesson a lesson object.
-     * @param string $currenttab current tab that is shown.
-     * @param bool   $extraeditbuttons if extra edit buttons should be displayed.
-     * @param int    $lessonpageid id of the lesson page that needs to be displayed.
-     * @param string $extrapagetitle String to appent to the page title.
-     * @return string
      */
-    public function header() {
-        global $CFG;
-
-        // Load background image.
-        $url = '';
-        $fs = get_file_storage();
-        $context = \context_system::instance();
-        $files = $fs->get_area_files($context->id, 'local_login', 'backgroundimage', 0, 'filepath, filename', false);
-        if ($files) {
-            foreach ($files as $file) {
-                $url = \moodle_url::make_pluginfile_url(
-                    $file->get_contextid(),
-                    $file->get_component(),
-                    $file->get_filearea(),
-                    $file->get_itemid(),
-                    $file->get_filepath(),
-                    $file->get_filename()
-                );
-            }
-        }
-
-        $output = "<div style='background-image:url(".$url.")'>Start background image";
-        $output .= $this->output->header();
-
-
-        return $output;
+    public function local_login_before_footer() {
+        return "</div>";
     }
-
-    /**
-     * Returns the footer
-     * @return string
-     */
-    public function footer() {
-        $output = "Closing background image</div>";
-        $output .= $this->output->footer();
-        return $output;
-    }
-
 }
