@@ -73,7 +73,7 @@ function local_login_pluginfile($course, $cm, $context, $filearea, $args, $force
 function local_login_before_standard_top_of_body_html() {
     global $PAGE;
     $config = get_config('local_login');
-    if (!empty($config->backgroundimage)) {
+    if (!empty($config->backgroundimage) &&  strpos($PAGE->url, 'local/login')) {
         $url = '';
         $fs = get_file_storage();
         $context = \context_system::instance();
