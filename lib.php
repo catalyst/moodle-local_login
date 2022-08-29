@@ -21,22 +21,45 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Triggers after site config is loaded. It is used to
  *
  */
 function local_login_after_config() {
-    global $CFG;
-    $noredirect  = optional_param('noredirect', 0, PARAM_BOOL); // don't redirect.
+    global $CFG, $SESSION, $_SERVER, $USER;
+    $errorcode = 0;
+
+    // Set new login URL.
+    $loginurl = new moodle_url('/local/login/index.php');
+    $loginurlstr = $loginurl->out(false);
+
+    // To stop redirect if alternateloginurl is set.
     if (!empty($CFG->alternateloginurl)) {
         unset($CFG->alternateloginurl);
     }
-    $currenturl = $_SERVER['REQUEST_URI'];
-    if (strpos($currenturl, 'login') && (strlen(strtok($currenturl, '?')) == 16)
-        && !(strpos($currenturl, 'local/login')) && empty($noredirect)) {
-        $localloginurl = new moodle_url('/local/login/index.php');
-        redirect($localloginurl );
+    $config = get_config('local_login');
+    $redirected = $config->redirected;
+
+    // If the user has logged in then stop the redirect to the new login url.
+    if ($redirected == 1 && $USER->id != 0) {
+        set_config('redirected', 0, 'local_login');
+    }
+
+    if (!empty($SESSION->wantsurl) && strpos($SESSION->wantsurl, $loginurlstr) === 0) {
+        // We do not want to return to alternate url.
+        $SESSION->wantsurl = null;
+    } else if (isset($_SERVER['REQUEST_URI'])) {
+        $currenturl = $_SERVER['REQUEST_URI'];
+        if (strpos($currenturl, 'login') && (strlen(strtok($currenturl, '?')) == 16)
+        && empty($noredirect) && ($redirected != 1) && !(strpos($currenturl, 'local/login'))) {
+            set_config('redirected', 1, 'local_login');
+            // If error code then add that to url.
+            if ($errorcode) {
+                $loginurl->param('errorcode', $errorcode);
+            }
+            redirect($loginurl->out(false));
+        }
     }
 }
+
+
