@@ -70,7 +70,6 @@ class login {
 
             $manualloginurl = new \moodle_url('/login/index.php', $urlparams);
 
-
             $output .= \html_writer::start_tag('div', array('class' => 'idp-login container-fluid manual'));
             if (!empty($config->beforemanualtext)) {
                 $output .= \html_writer::span(format_text($config->beforemanualtext), 'beforemanual');
