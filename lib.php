@@ -28,7 +28,7 @@
 function local_login_after_config() {
     global $CFG, $SESSION, $_SERVER, $USER, $DB;
     $errorcode = 0;
-
+    $noredirect  = optional_param('noredirect', 0, PARAM_BOOL); // don't redirect
     if (!isloggedin()) {
         // Set new login URL.
         $loginurl = new moodle_url('/local/login/index.php');
@@ -39,25 +39,13 @@ function local_login_after_config() {
             unset($CFG->alternateloginurl);
         }
 
-        if (!$sesskey = $USER->sesskey) {
-            $sesskey = '';
-        }
-
-        if ($record = $DB->get_record_sql('select redirected from {local_login} where sesskey like :sesskey',
-        array ('sesskey' => $sesskey))) {
-            $redirected = $record->redirected;
-        } else {
-            $redirected = 0;
-        }
-
         if (!empty($SESSION->wantsurl) && strpos($SESSION->wantsurl, $loginurlstr) === 0) {
             // We do not want to return to alternate url.
             $SESSION->wantsurl = null;
         } else if (isset($_SERVER['REQUEST_URI'])) {
             $currenturl = $_SERVER['REQUEST_URI'];
             if (strpos($currenturl, 'login') && (strlen(strtok($currenturl, '?')) == 16)
-            && empty($noredirect) && ($redirected != 1) && !(strpos($currenturl, 'local/login'))) {
-                $DB->insert_record('local_login', array ('redirected' => 1, 'sesskey' => $sesskey, 'userid' => $USER->id));
+            && $noredirect != 1 && !(strpos($currenturl, 'local/login'))) {
                 // If error code then add that to url.
                 if ($errorcode) {
                     $loginurl->param('errorcode', $errorcode);
