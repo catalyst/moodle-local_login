@@ -37,8 +37,11 @@ function local_login_after_config() {
     if (!empty($CFG->alternateloginurl)) {
         unset($CFG->alternateloginurl);
     }
+    $redirected = '';
     $config = get_config('local_login');
-    $redirected = $config->redirected;
+    if (isset($config->redirected)) {
+        $redirected = $config->redirected;
+    }
 
     // If the user has logged in then stop the redirect to the new login url.
     if ($redirected == 1 && $USER->id != 0) {
