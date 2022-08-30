@@ -29,35 +29,41 @@ function local_login_after_config() {
     global $CFG, $SESSION, $_SERVER, $USER, $DB;
     $errorcode = 0;
 
-    // Set new login URL.
-    $loginurl = new moodle_url('/local/login/index.php');
-    $loginurlstr = $loginurl->out(false);
+    if (!isloggedin()) {
+        // Set new login URL.
+        $loginurl = new moodle_url('/local/login/index.php');
+        $loginurlstr = $loginurl->out(false);
 
-    // To stop redirect if alternateloginurl is set.
-    if (!empty($CFG->alternateloginurl)) {
-        unset($CFG->alternateloginurl);
-    }
-    $redirected = '';
-    $redirected = $DB->get_field('config_plugins', 'value', array ('name' => 'redirected', 'plugin' => 'local_login'));
+        // To stop redirect if alternateloginurl is set.
+        if (!empty($CFG->alternateloginurl)) {
+            unset($CFG->alternateloginurl);
+        }
 
-    // If the user has logged in then stop the redirect to the new login url.
-    if ($redirected == 1 && $USER->id != 0) {
-        set_config('redirected', 0, 'local_login');
-    }
+        if (!$sesskey = $USER->sesskey) {
+            $sesskey = '';
+        }
 
-    if (!empty($SESSION->wantsurl) && strpos($SESSION->wantsurl, $loginurlstr) === 0) {
-        // We do not want to return to alternate url.
-        $SESSION->wantsurl = null;
-    } else if (isset($_SERVER['REQUEST_URI'])) {
-        $currenturl = $_SERVER['REQUEST_URI'];
-        if (strpos($currenturl, 'login') && (strlen(strtok($currenturl, '?')) == 16)
-        && empty($noredirect) && ($redirected != 1) && !(strpos($currenturl, 'local/login'))) {
-            set_config('redirected', 1, 'local_login');
-            // If error code then add that to url.
-            if ($errorcode) {
-                $loginurl->param('errorcode', $errorcode);
+        if ($record = $DB->get_record_sql('select redirected from {local_login} where sesskey like :sesskey',
+        array ('sesskey' => $sesskey))) {
+            $redirected = $record->redirected;
+        } else {
+            $redirected = 0;
+        }
+
+        if (!empty($SESSION->wantsurl) && strpos($SESSION->wantsurl, $loginurlstr) === 0) {
+            // We do not want to return to alternate url.
+            $SESSION->wantsurl = null;
+        } else if (isset($_SERVER['REQUEST_URI'])) {
+            $currenturl = $_SERVER['REQUEST_URI'];
+            if (strpos($currenturl, 'login') && (strlen(strtok($currenturl, '?')) == 16)
+            && empty($noredirect) && ($redirected != 1) && !(strpos($currenturl, 'local/login'))) {
+                $DB->insert_record('local_login', array ('redirected' => 1, 'sesskey' => $sesskey, 'userid' => $USER->id));
+                // If error code then add that to url.
+                if ($errorcode) {
+                    $loginurl->param('errorcode', $errorcode);
+                }
+                redirect($loginurl->out(false));
             }
-            redirect($loginurl->out(false));
         }
     }
 }
