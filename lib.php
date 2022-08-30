@@ -26,7 +26,7 @@
  *
  */
 function local_login_after_config() {
-    global $CFG, $SESSION, $_SERVER, $USER;
+    global $CFG, $SESSION, $_SERVER, $USER, $DB;
     $errorcode = 0;
 
     // Set new login URL.
@@ -38,10 +38,7 @@ function local_login_after_config() {
         unset($CFG->alternateloginurl);
     }
     $redirected = '';
-    $config = get_config('local_login');
-    if (isset($config->redirected)) {
-        $redirected = $config->redirected;
-    }
+    $redirected = $DB->get_field('config_plugins', 'value', array ('name' => 'redirected', 'plugin' => 'local_login'));
 
     // If the user has logged in then stop the redirect to the new login url.
     if ($redirected == 1 && $USER->id != 0) {
