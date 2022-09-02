@@ -29,7 +29,8 @@ function local_login_after_config() {
     global $CFG, $SESSION, $_SERVER;
     $errorcode = 0;
     $noredirect  = optional_param('noredirect', 0, PARAM_BOOL); // don't redirect
-    if (!isloggedin()) {
+
+    if (!isloggedin() && empty($noredirect)) {
         // Set new login URL.
         $loginurl = new moodle_url('/local/login/index.php');
         $loginurlstr = $loginurl->out(false);
@@ -40,13 +41,13 @@ function local_login_after_config() {
         }
 
         if (!empty($SESSION->wantsurl) && strpos($SESSION->wantsurl, $loginurlstr) === 0) {
-            // To stop the redirect loop as local/login is redirected from login page and this would causes an unending loop.
+            // To stop the redirect loop as local/login is redirected from login page and this causes an unending redirect.
             $SESSION->wantsurl = null;
         } else if (isset($_SERVER['REQUEST_URI'])) {
             // To avoid this part being called from other plugins like workshopform_rubric_testsuite.
             $currenturl = $_SERVER['REQUEST_URI'];
             if (strpos($currenturl, 'login') && (strlen(strtok($currenturl, '?')) == 16)
-            && $noredirect != 1 && !(strpos($currenturl, 'local/login'))) {
+             && !(strpos($currenturl, 'local/login'))) {
                 // If error code then add that to url.
                 if ($errorcode) {
                     $loginurl->param('errorcode', $errorcode);
