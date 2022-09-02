@@ -63,5 +63,6 @@ echo \local_login\output\login::output_login_options($wantsurl);
 if (!empty($config->footertext)) {
     echo format_text($config->footertext);
 }
-
+// To allow login if the user came from a different page like a course/view page
+$SESSION->wantsurl = null;
 echo $OUTPUT->footer();
