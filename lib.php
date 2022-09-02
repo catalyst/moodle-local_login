@@ -22,11 +22,11 @@
  */
 
 /**
- * Triggers after site config is loaded. It is used to
+ * Triggers after site config is loaded.
  *
  */
 function local_login_after_config() {
-    global $CFG, $SESSION, $_SERVER, $USER, $DB;
+    global $CFG, $SESSION, $_SERVER;
     $errorcode = 0;
     $noredirect  = optional_param('noredirect', 0, PARAM_BOOL); // don't redirect
     if (!isloggedin()) {
@@ -40,9 +40,10 @@ function local_login_after_config() {
         }
 
         if (!empty($SESSION->wantsurl) && strpos($SESSION->wantsurl, $loginurlstr) === 0) {
-            // We do not want to return to alternate url.
+            // To stop the redirect loop as local/login is redirected from login page and this would causes an unending loop.
             $SESSION->wantsurl = null;
         } else if (isset($_SERVER['REQUEST_URI'])) {
+            // To avoid this part being called from other plugins like workshopform_rubric_testsuite.
             $currenturl = $_SERVER['REQUEST_URI'];
             if (strpos($currenturl, 'login') && (strlen(strtok($currenturl, '?')) == 16)
             && $noredirect != 1 && !(strpos($currenturl, 'local/login'))) {
