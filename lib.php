@@ -22,7 +22,7 @@
  */
 
 /**
- * Triggers after site config is loaded.
+ * Triggers after site config is loaded. It is used to direct user to the custom login page.
  *
  */
 function local_login_after_config() {
