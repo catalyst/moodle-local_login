@@ -67,14 +67,13 @@ class login {
                 'noredirect' => 1,
                 'passive' => 'off' // Prevent Saml2 from triggering passive check on manual login page.
             ];
-
             $manualloginurl = new \moodle_url('/login/index.php', $urlparams);
-
             $output .= \html_writer::start_tag('div', array('class' => 'idp-login container-fluid manual'));
             if (!empty($config->beforemanualtext)) {
                 $output .= \html_writer::span(format_text($config->beforemanualtext), 'beforemanual');
             }
-            $name = !empty($config->custommanualtext) ? format_string($config->custommanualtext) : get_string('manuallogin', 'local_login');
+            $name = !empty($config->custommanualtext) ? format_string($config->custommanualtext) :
+                get_string('manuallogin', 'local_login');
             $attributes = ['class' => 'btn btn-secondary btn-block', 'title' => $name];
             $output .= \html_writer::link($manualloginurl, $name, $attributes);
             $output .= \html_writer::end_tag('div');
