@@ -51,11 +51,12 @@ $site = get_site();
 $PAGE->navbar->ignore_active();
 $loginsite = get_string("loginsite");
 $PAGE->navbar->add($loginsite);
-
-
-$OUTPUT = $PAGE->get_renderer('local_login');
-
 echo $OUTPUT->header();
+
+$bgimage = get_bgimage();
+if (!empty($bgimage)) {
+    echo "<div class='backgroundimage' style='background-image: url(\" ". $bgimage ." \" )'>";
+}
 
 $config = get_config('local_login');
 if (!empty($config->headertext)) {
@@ -66,6 +67,10 @@ echo \local_login\output\login::output_login_options($wantsurl);
 
 if (!empty($config->footertext)) {
     echo format_text($config->footertext);
+}
+
+if (!empty($bgimage)) {
+    echo "</div>";
 }
 
 echo $OUTPUT->footer();

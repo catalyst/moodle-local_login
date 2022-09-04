@@ -67,10 +67,23 @@ function local_login_pluginfile($course, $cm, $context, $filearea, $args, $force
 }
 
 /**
- * Add background image to login page
+ * Callback to add head elements.
+ *
+ * @return str valid html head content
+ */
+function local_login_before_standard_html_head() {
+    global $PAGE, $CFG;
+    $config = get_config('local_login');
+    if (!empty($config->backgroundimage) &&  strpos($PAGE->url, 'local/login')) {
+        return "<link rel='stylesheet' type='text/css' href='"."$CFG->wwwroot/local/login/"."loginbgstyles.css' />\n";
+    }
+}
+
+/**
+ * Get background image to add to the login page.
  *
  */
-function local_login_before_standard_top_of_body_html() {
+function get_bgimage() {
     global $PAGE;
     $config = get_config('local_login');
     if (!empty($config->backgroundimage) &&  strpos($PAGE->url, 'local/login')) {
@@ -89,10 +102,9 @@ function local_login_before_standard_top_of_body_html() {
                     $file->get_filename()
                 );
             }
-            $renderer = $PAGE->get_renderer('local_login');
-            $html = $renderer->render_backgroundimage($url);
-            return $html;
+            return $url;
         }
     }
     return '';
+
 }
