@@ -73,7 +73,8 @@ class login {
             if (!empty($config->beforemanualtext)) {
                 $output .= \html_writer::span(format_text($config->beforemanualtext), 'beforemanual');
             }
-            $name = !empty($config->custommanualtext) ? format_string($config->custommanualtext) : get_string('manuallogin', 'local_login');
+            $name = !empty($config->custommanualtext) ? format_string($config->custommanualtext)
+            : get_string('manuallogin', 'local_login');
             $attributes = ['class' => 'btn btn-secondary btn-block', 'title' => $name];
             $output .= \html_writer::link($manualloginurl, $name, $attributes);
             $output .= \html_writer::end_tag('div');

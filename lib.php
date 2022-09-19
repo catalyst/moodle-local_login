@@ -15,14 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Libs.
  * local_login callbacks.
  * @copyright  Catalyst IT 2022
  * @package    local_login
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Copy the updated background image to the correct location in dataroot for the image to be served
