@@ -16,6 +16,7 @@
 
 /**
  * Libs.
+ * local_login callbacks.
  * @copyright  Catalyst IT 2022
  * @package    local_login
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -73,3 +74,16 @@ function local_login_backgroundimage() {
     theme_reset_all_caches();
 }
 
+/**
+ * Triggers after site config is loaded. It is used to direct user to the custom login page.
+ *
+ */
+function local_login_after_config() {
+    global $CFG, $FULLME;
+    $noredirect  = optional_param('noredirect', 0, PARAM_BOOL); // Don't redirect.
+    if (stripos($FULLME, $CFG->wwwroot.'/login/index.php') === 0 &&
+       !isloggedin() && !empty($noredirect) && !empty($CFG->alternateloginurl)) {
+
+        unset($CFG->alternateloginurl);
+    }
+}
