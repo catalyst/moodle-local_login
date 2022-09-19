@@ -41,3 +41,5 @@ $string['footertext'] = 'Footer text';
 $string['footertext_desc'] = 'Text that appears after the login links.';
 $string['settings'] = 'Login splash page settings';
 $string['customlogindisabled'] = 'Site settings prevent this page from being used.';
+$string['backgroundimage'] = 'Background image';
+$string['backgroundimage_desc'] = 'Background image that appears on the local login page.';
