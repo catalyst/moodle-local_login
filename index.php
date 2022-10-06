@@ -28,7 +28,7 @@ require_once('../../config.php');
 require_once($CFG->dirroot.'/login/lib.php');
 require_once($CFG->libdir.'/authlib.php');
 
-if (isloggedin()) {
+if (isloggedin() && !isguestuser()) {
     // User already logged in.
     $urltogo = core_login_get_return_url();
     unset($SESSION->wantsurl);
