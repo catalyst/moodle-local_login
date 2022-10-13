@@ -29,6 +29,22 @@ Alternatively, you can run
 
 to complete the installation from the command line.
 
+## Installation and usage in Totara ##
+
+For Totara the plugin must be installed manually into
+
+    {your/totara/dirroot}/server/local/login
+
+Afterwards, run
+
+    $ php server/admin/cli/upgrade.php
+
+to complete the installation from the command line.
+
+Totara 15+ requires applying the following setting in config.php
+
+    $CFG->allowlogincsrf = 1;
+
 ## License ##
 
 2022 Catalyst IT
