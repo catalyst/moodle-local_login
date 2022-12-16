@@ -44,6 +44,12 @@ if ($hassiteconfig) { // Needs this condition or there is error on login page.
     $settings->add(new admin_setting_configcheckbox('local_login/forcelogin',
         get_string('forcelogin', 'local_login'),
         get_string('forcelogin_desc', 'local_login'),
+         0)
+    );
+
+    $settings->add(new admin_setting_configcheckbox('local_login/showmnet',
+        get_string('showmnet', 'local_login'),
+        get_string('showmnet_desc', 'local_login'),
         0)
     );
 

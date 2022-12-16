@@ -43,6 +43,10 @@ class login {
 
         $authsequence = get_enabled_auth_plugins(); // Get all auths, in sequence.
         foreach ($authsequence as $authname) {
+            if ($authname == 'mnet' && empty(get_config('local_login', 'showmnet'))) {
+                // Don't show mnet options on the page.
+                continue;
+            }
             $authplugin = get_auth_plugin($authname);
             $potentialidps = $authplugin->loginpage_idp_list($wantsurl);
 

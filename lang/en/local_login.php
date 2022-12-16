@@ -45,3 +45,6 @@ $string['backgroundimage'] = 'Background image';
 $string['backgroundimage_desc'] = 'Background image that appears on the local login page.';
 $string['forcelogin'] = 'Force login when accessing site homepage';
 $string['forcelogin_desc'] = 'If the user is accessing the site homepage and the user is not currently logged in, this will redirect them to the login page';
+$string['showmnet'] = 'Show mnet providers';
+$string['showmnet_desc'] = 'If mnet is enabled, these options will be included on the local login page.';
+
