@@ -76,11 +76,17 @@ function local_login_backgroundimage() {
  *
  */
 function local_login_after_config() {
+
     global $CFG, $FULLME;
+    $forcelogin = get_config('local_login', 'forcelogin');
     $noredirect  = optional_param('noredirect', 0, PARAM_BOOL); // Don't redirect.
     if (stripos($FULLME, $CFG->wwwroot.'/login/index.php') === 0 &&
        !isloggedin() && !empty($noredirect) && !empty($CFG->alternateloginurl)) {
-
         unset($CFG->alternateloginurl);
     }
+    $path = str_replace($CFG->wwwroot, "", $FULLME);
+    if ((empty($path) || $path == '/' || $path == '/index.php') && !isloggedin() && $forcelogin == 1) {
+        redirect($CFG->wwwroot.'/login/index.php');
+    }
+
 }
