@@ -84,7 +84,9 @@ function local_login_after_config() {
        !isloggedin() && !empty($noredirect) && !empty($CFG->alternateloginurl)) {
         unset($CFG->alternateloginurl);
     }
-    $path = str_replace($CFG->wwwroot, "", $FULLME);
+    $wwwrootpath = parse_url($CFG->wwwroot, PHP_URL_PATH);
+    $fullmepath = parse_url($FULLME, PHP_URL_PATH);
+    $path = str_replace($wwwrootpath, "", $fullmepath);
     if ((empty($path) || $path == '/' || $path == '/index.php') && !isloggedin() && $forcelogin == 1) {
         redirect($CFG->wwwroot.'/login/index.php');
     }
