@@ -3,7 +3,7 @@ When presenting a login page that contains a form - many users will ignore all l
 
 This plugin provides a custom splash page that only shows the IDP/SSO buttons and (optionally) a link to the manual Moodle login form.
 
-Once installed, set the alternateloginurl setting in moodle to yourmoodleurl/local/login/index.php 
+Once installed, set the alternateloginurl setting in moodle to yourmoodleurl/local/login/index.php
 
 
 ## Installing via uploaded ZIP file ##
@@ -40,10 +40,6 @@ Afterwards, run
     $ php server/admin/cli/upgrade.php
 
 to complete the installation from the command line.
-
-Totara 15+ requires applying the following setting in config.php
-
-    $CFG->allowlogincsrf = 1;
 
 ## License ##
 
