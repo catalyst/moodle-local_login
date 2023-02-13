@@ -51,6 +51,9 @@ $site = get_site();
 $PAGE->navbar->ignore_active();
 $loginsite = get_string("loginsite");
 $PAGE->navbar->add($loginsite);
+
+$loginoptions = \local_login\output\login::output_login_options($wantsurl);
+
 echo $OUTPUT->header();
 
 $config = get_config('local_login');
@@ -58,7 +61,7 @@ if (!empty($config->headertext)) {
     echo format_text($config->headertext);
 }
 
-echo \local_login\output\login::output_login_options($wantsurl);
+echo $loginoptions;
 
 if (!empty($config->footertext)) {
     echo format_text($config->footertext);
