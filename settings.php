@@ -53,6 +53,12 @@ if ($hassiteconfig) { // Needs this condition or there is error on login page.
          0)
     );
 
+    $settings->add(new admin_setting_configcheckbox('local_login/autoredirect',
+        get_string('autoredirect', 'local_login'),
+        get_string('autoredirect_desc', 'local_login'),
+         0)
+    );
+
     $settings->add(new admin_setting_configcheckbox('local_login/showmnet',
         get_string('showmnet', 'local_login'),
         get_string('showmnet_desc', 'local_login'),

@@ -40,7 +40,7 @@ class login {
         // Output.
         $output = '';
         $output .= \html_writer::start_tag('div', array('id' => 'local-login-options', 'class' => 'container-fluid'));
-
+        $count = 0;
         $authsequence = get_enabled_auth_plugins(); // Get all auths, in sequence.
         foreach ($authsequence as $authname) {
             if ($authname == 'mnet' && empty(get_config('local_login', 'showmnet'))) {
@@ -62,9 +62,16 @@ class login {
                     $output .= \html_writer::link($idp['url'], $name, $attributes);
 
                     $output .= \html_writer::end_tag('div');
+                    $idploginpath = $idp['url'];
+                    $count++;
                 }
             }
         }
+        // If only one IDP is available in authentication plugins then auto-redirect to it.
+        if ($count === 1 && get_config('local_login', 'autoredirect')) {
+            redirect($idploginpath);
+        }
+
         if (!empty($config->showmanual)) {
             // Now display link to manual login page.
             $urlparams = [
