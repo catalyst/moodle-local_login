@@ -68,7 +68,8 @@ class login {
             }
         }
         // If only one IDP is available in authentication plugins then auto-redirect to it.
-        if ($count === 1 && get_config('local_login', 'autoredirect')) {
+        $noredirect  = optional_param('noredirect', 0, PARAM_BOOL); // Don't redirect.
+        if ($count === 1 && get_config('local_login', 'autoredirect')  && empty($noredirect)) {
             redirect($idploginpath);
         }
 
