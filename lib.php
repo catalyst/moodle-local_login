@@ -82,7 +82,7 @@ function local_login_after_config() {
     if (stripos($FULLME, $CFG->wwwroot.'/login/index.php') === 0 && !isloggedin()) {
         if (!empty($noredirect) && !empty($CFG->alternateloginurl)) {
              unset($CFG->alternateloginurl);
-        } else if ($forceloginredirect && !data_submitted()) {
+        } else if (empty($noredirect) && $forceloginredirect && !data_submitted()) {
             redirect($CFG->wwwroot.'/local/login/index.php');
         }
     }
@@ -91,7 +91,7 @@ function local_login_after_config() {
     $wwwrootpath = parse_url($CFG->wwwroot, PHP_URL_PATH);
     $fullmepath = parse_url($FULLME, PHP_URL_PATH);
     $path = str_replace($wwwrootpath, "", $fullmepath);
-    if ((empty($path) || $path == '/' || $path == '/index.php') && !isloggedin() && $forcelogin == 1) {
+    if ((empty($noredirect) && empty($path) || $path == '/' || $path == '/index.php') && !isloggedin() && $forcelogin == 1  ) {
         redirect($CFG->wwwroot.'/login/index.php');
     }
 }
