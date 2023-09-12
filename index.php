@@ -36,6 +36,13 @@ if (isloggedin() && !isguestuser()) {
 }
 
 $wantsurl = empty($SESSION->wantsurl) ? '' : $SESSION->wantsurl;
+$loginerrormsg = empty($SESSION->loginerrormsg) ? '' : $SESSION->loginerrormsg;
+$accounterror = false;
+
+if ($loginerrormsg === 'The login attempt failed. Reason: An account with your email address could not be created.') {
+    $accounterror = true;
+}
+
 
 $context = context_system::instance();
 $PAGE->set_url("{$CFG->wwwroot}/local/login/index.php");
@@ -52,13 +59,19 @@ $PAGE->navbar->ignore_active();
 $loginsite = get_string("loginsite");
 $PAGE->navbar->add($loginsite);
 
-$loginoptions = \local_login\output\login::output_login_options($wantsurl);
+$loginoptions = \local_login\output\login::output_login_options($wantsurl, $accounterror);
 
 echo $OUTPUT->header();
 
 $config = get_config('local_login');
 if (!empty($config->headertext)) {
     echo format_text($config->headertext);
+}
+
+if ($accounterror) {
+    echo '<div class="loginerrors">';
+    echo $OUTPUT->error_text($loginerrormsg);
+    echo '</div>';
 }
 
 echo $loginoptions;
