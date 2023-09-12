@@ -32,9 +32,10 @@ class login {
      * Output login buttons to page.
      *
      * @param string $wantsurl
+     * @param boolean $accounterror
      * @return string
      */
-    public static function output_login_options($wantsurl) {
+    public static function output_login_options($wantsurl, $accounterror) {
         // Could have used a renderer, but just nicer to have everything in the same file.
         $config = get_config('local_login');
         // Output.
@@ -69,7 +70,7 @@ class login {
         }
         // If only one IDP is available in authentication plugins then auto-redirect to it.
         $noredirect  = optional_param('noredirect', 0, PARAM_BOOL); // Don't redirect.
-        if ($count === 1 && get_config('local_login', 'autoredirect')  && empty($noredirect)) {
+        if ($count === 1 && get_config('local_login', 'autoredirect') && empty($noredirect) && !$accounterror) {
             redirect($idploginpath);
         }
 
