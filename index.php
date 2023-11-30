@@ -36,6 +36,7 @@ if (isloggedin() && !isguestuser()) {
 }
 
 $wantsurl = empty($SESSION->wantsurl) ? '' : $SESSION->wantsurl;
+$noredirect  = optional_param('noredirect', false, PARAM_BOOL); // Don't redirect.
 
 $context = context_system::instance();
 $PAGE->set_url("{$CFG->wwwroot}/local/login/index.php");
@@ -52,7 +53,5 @@ $PAGE->navbar->ignore_active();
 $loginsite = get_string("loginsite");
 $PAGE->navbar->add($loginsite);
 
-
-echo $OUTPUT->header();
-echo \local_login\output\login::login($wantsurl);
-echo $OUTPUT->footer();
+$output = $PAGE->get_renderer('local_login');
+echo $output->render_login($wantsurl, $noredirect);

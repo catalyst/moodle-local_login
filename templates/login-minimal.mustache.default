@@ -1,13 +1,14 @@
+{{{pageheader}}}
 <div id="local-login-page">
     <div class='idp-header'>
         {{{header}}}
     </div>
     <div id="local-login-options" class="idp-login">
         {{#idplist}}
-            <div class="idp-login container-fluid {{authname}}">
+            <div class="idp-login container-fluid {{auth}}">
                 <a class="btn btn-secondary btn-block" title="{{name}}" href="{{url}}">
                     {{#iconurl}}
-                        <img src="{{iconurl}}" width="24" height="24" class="mr-1"/>
+                        <img src="{{iconurl}}" width="24" height="24" class="mr-1" alt="Login Icon">
                     {{/iconurl}}
                     {{name}}
                 </a>
@@ -26,3 +27,4 @@
         {{{footer}}}
     </div>
 </div>
+{{{pagefooter}}}

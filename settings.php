@@ -28,60 +28,52 @@ require_once(__DIR__ . '/lib.php');
 if ($hassiteconfig) { // Needs this condition or there is error on login page.
     $settings = new admin_settingpage(
         'local_login_settings', get_string('settings', 'local_login'));
+    $settingarr = [];
 
-    $settings->add(new admin_setting_configcheckbox('local_login/showmanual',
+    $settingarr[] = new admin_setting_configcheckbox('local_login/showmanual',
         get_string('showmanual', 'local_login'),
         get_string('showmanual_desc', 'local_login'),
-        1)
-    );
+        1);
 
-    $settings->add(new admin_setting_configtext('local_login/custommanualtext',
+    $settingarr[] = new admin_setting_configtext('local_login/custommanualtext',
         get_string('custommanualtext', 'local_login'),
         get_string('custommanualtext_desc', 'local_login'),
-        '')
-    );
+        '');
 
-    $settings->add(new admin_setting_configcheckbox('local_login/forcelogin',
+    $settingarr[] = new admin_setting_configcheckbox('local_login/forcelogin',
         get_string('forcelogin', 'local_login'),
         get_string('forcelogin_desc', 'local_login'),
-         0)
-    );
+         0);
 
-    $settings->add(new admin_setting_configcheckbox('local_login/forceloginredirect',
+    $settingarr[] = new admin_setting_configcheckbox('local_login/forceloginredirect',
         get_string('forceloginredirect', 'local_login'),
         get_string('forceloginredirect_desc', 'local_login'),
-         0)
-    );
+         0);
 
-    $settings->add(new admin_setting_configcheckbox('local_login/autoredirect',
+    $settingarr[] = new admin_setting_configcheckbox('local_login/autoredirect',
         get_string('autoredirect', 'local_login'),
         get_string('autoredirect_desc', 'local_login'),
-         0)
-    );
+         0);
 
-    $settings->add(new admin_setting_configcheckbox('local_login/showmnet',
+    $settingarr[] = new admin_setting_configcheckbox('local_login/showmnet',
         get_string('showmnet', 'local_login'),
         get_string('showmnet_desc', 'local_login'),
-        0)
-    );
+        0);
 
-    $settings->add(new admin_setting_configtextarea('local_login/headertext',
+    $settingarr[] = new admin_setting_configtextarea('local_login/headertext',
         get_string('headertext', 'local_login'),
         get_string('headertext_desc', 'local_login'),
-        '')
-    );
+        '');
 
-    $settings->add(new admin_setting_configtextarea('local_login/beforemanualtext',
+    $settingarr[] = new admin_setting_configtextarea('local_login/beforemanualtext',
         get_string('beforemanualtext', 'local_login'),
         get_string('beforemanualtext_desc', 'local_login'),
-        '')
-    );
+        '');
 
-    $settings->add(new admin_setting_configtextarea('local_login/footertext',
+    $settingarr[] = new admin_setting_configtextarea('local_login/footertext',
         get_string('footertext', 'local_login'),
         get_string('footertext_desc', 'local_login'),
-        '')
-    );
+        '');
 
     $backgroundimage = new admin_setting_configstoredfile(
         'local_login/backgroundimage',
@@ -92,12 +84,18 @@ if ($hassiteconfig) { // Needs this condition or there is error on login page.
     $settings->add($backgroundimage);
 
     // Load the contents of the minimal template file to be the default of the config.
-    $templatecontents = file_get_contents($CFG->dirroot . '/local/login/templates/login-minimal.mustache');
-    $settings->add(new admin_setting_configtextarea('local_login/template', 
+    $templatecontents = file_get_contents($CFG->dirroot . \local_login\output\renderer::DEFAULT_TEMPLATE_PATH);
+    $settingarr[] = new admin_setting_configtextarea('local_login/template',
         get_string('template', 'local_login'),
         get_string('template_desc', 'local_login'),
         $templatecontents
-    ));
+    );
+
+    // Add a template purge to all settings callbacks.
+    foreach ($settingarr as $setting) {
+        $setting->set_updatedcallback('local_login_template_updated');
+        $settings->add($setting);
+    }
 
     $ADMIN->add('localplugins', $settings);
 }

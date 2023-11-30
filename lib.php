@@ -95,3 +95,10 @@ function local_login_after_config() {
         redirect($CFG->wwwroot.'/login/index.php');
     }
 }
+
+/**
+ * Purge the cached rendered login page.
+ */
+function local_login_template_updated() {
+    cache_helper::purge_by_definition('local_login', 'renderedlogin');
+}
