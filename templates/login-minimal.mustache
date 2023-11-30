@@ -1,0 +1,28 @@
+<div id="local-login-page">
+    <div class='idp-header'>
+        {{{header}}}
+    </div>
+    <div id="local-login-options" class="idp-login">
+        {{#idplist}}
+            <div class="idp-login container-fluid {{authname}}">
+                <a class="btn btn-secondary btn-block" title="{{name}}" href="{{url}}">
+                    {{#iconurl}}
+                        <img src="{{iconurl}}" width="24" height="24" class="mr-1"/>
+                    {{/iconurl}}
+                    {{name}}
+                </a>
+            </div>
+        {{/idplist}}
+        {{#manual}}
+            <div class="idp-login container-fluid manual">
+                {{#beforemanual}}
+                    <span class="beforemanual">{{{beforemanual}}}</span>
+                {{/beforemanual}}
+                <a class="btn btn-secondary btn-block" title="{{manualname}}" href="{{manualurl}}">{{manualname}}</a>
+            </div>
+        {{/manual}}
+    </div>
+    <div class='idp-footer'>
+        {{{footer}}}
+    </div>
+</div>

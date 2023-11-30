@@ -23,23 +23,26 @@
 
 namespace local_login\output;
 
+use Mustache_Engine;
+
 /**
  * Output buttons.
  */
 class login {
 
     /**
-     * Output login buttons to page.
+     * Output login page.
      *
      * @param string $wantsurl
      * @return string
      */
-    public static function output_login_options($wantsurl) {
-        // Could have used a renderer, but just nicer to have everything in the same file.
+    public static function login($wantsurl) {
+        global $CFG;
+
         $config = get_config('local_login');
-        // Output.
-        $output = '';
-        $output .= \html_writer::start_tag('div', array('id' => 'local-login-options', 'class' => 'container-fluid'));
+        $context = new \stdClass();
+
+        $idplist = [];
         $count = 0;
         $authsequence = get_enabled_auth_plugins(); // Get all auths, in sequence.
         foreach ($authsequence as $authname) {
@@ -49,24 +52,24 @@ class login {
             }
             $authplugin = get_auth_plugin($authname);
             $potentialidps = $authplugin->loginpage_idp_list($wantsurl);
-
             if (!empty($potentialidps)) {
                 foreach ($potentialidps as $idp) {
-                    $output .= \html_writer::start_tag('div', array('class' => 'idp-login container-fluid '. $authname));
-                    $name = '';
+                    $idpcontext = [
+                        'auth' => $authname,
+                        'name' => s($idp['name']),
+                        'url' => $idp['url']
+                    ];
                     if (!empty($idp['iconurl'])) {
-                        $name .= '<img src="' . s($idp['iconurl']) . '" width="24" height="24" class="mr-1"/>';
+                        $idpcontext['iconurl'] = s($idp['iconurl']);
                     }
-                    $name .= s($idp['name']);
-                    $attributes = ['class' => 'btn btn-secondary btn-block', 'title' => s($idp['name'])];
-                    $output .= \html_writer::link($idp['url'], $name, $attributes);
-
-                    $output .= \html_writer::end_tag('div');
-                    $idploginpath = $idp['url'];
+                    $idplist[] = (object) $idpcontext;
                     $count++;
+                    $idploginpath = $idp['url'];
                 }
             }
         }
+        $context->idplist = $idplist;
+        
         // If only one IDP is available in authentication plugins then auto-redirect to it.
         $noredirect  = optional_param('noredirect', 0, PARAM_BOOL); // Don't redirect.
         if ($count === 1 && get_config('local_login', 'autoredirect')  && empty($noredirect)) {
@@ -74,26 +77,39 @@ class login {
         }
 
         if (!empty($config->showmanual)) {
+            $manual = new \stdClass();
+
             // Now display link to manual login page.
             $urlparams = [
                 'noredirect' => 1,
                 'passive' => 'off' // Prevent Saml2 from triggering passive check on manual login page.
             ];
-            $manualloginurl = new \moodle_url('/login/index.php', $urlparams);
+            $manual->manualurl = new \moodle_url('/login/index.php', $urlparams);
 
-            $output .= \html_writer::start_tag('div', array('class' => 'idp-login container-fluid manual'));
             if (!empty($config->beforemanualtext)) {
-                $output .= \html_writer::span(format_text($config->beforemanualtext), 'beforemanual');
+                $manual->beforemanual = format_text($config->beforemanualtext);
             }
-            $name = !empty($config->custommanualtext) ? format_string($config->custommanualtext)
-            : get_string('manuallogin', 'local_login');
-            $attributes = ['class' => 'btn btn-secondary btn-block', 'title' => $name];
-            $output .= \html_writer::link($manualloginurl, $name, $attributes);
-            $output .= \html_writer::end_tag('div');
+
+            $name = !empty($config->custommanualtext) ? format_string($config->custommanualtext) : get_string('manuallogin', 'local_login');
+            $manual->manualname = $name;
+
+            $context->manual = $manual;
         }
 
-        $output .= \html_writer::end_tag('div');
+        $context->header = format_text($config->headertext);
+        $context->footer = format_text($config->footertext);
 
-        return $output;
+        $template = $config->template ?? '';
+        if (empty($template)) {
+            $template = file_get_contents($CFG->dirroot . '/local/login/templates/login-minimal.mustache');
+        }
+
+        // Custom mustache engine to load a string into context.
+        $engine = new Mustache_Engine([
+            'escape' => 's',
+            'pragmas' => [\Mustache_Engine::PRAGMA_BLOCKS],
+        ]);
+
+        return $engine->render($template, $context);
     }
 }

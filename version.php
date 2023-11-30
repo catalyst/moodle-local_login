@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_login';
-$plugin->release = '2022092000';
-$plugin->version = 2022092000;
+$plugin->release = '2023113000';
+$plugin->version = 2023113000;
 $plugin->requires = 2020061500;
 $plugin->maturity = MATURITY_STABLE;

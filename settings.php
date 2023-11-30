@@ -91,5 +91,13 @@ if ($hassiteconfig) { // Needs this condition or there is error on login page.
     $backgroundimage->set_updatedcallback('local_login_backgroundimage');
     $settings->add($backgroundimage);
 
+    // Load the contents of the minimal template file to be the default of the config.
+    $templatecontents = file_get_contents($CFG->dirroot . '/local/login/templates/login-minimal.mustache');
+    $settings->add(new admin_setting_configtextarea('local_login/template', 
+        get_string('template', 'local_login'),
+        get_string('template_desc', 'local_login'),
+        $templatecontents
+    ));
+
     $ADMIN->add('localplugins', $settings);
 }
