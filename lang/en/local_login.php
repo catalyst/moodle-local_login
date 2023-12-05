@@ -51,3 +51,7 @@ $string['autoredirect'] = 'Auto-redirect to a single IDP option';
 $string['autoredirect_desc'] = 'If only one IDP is available in authentication plugins then auto-redirect to it.  ';
 $string['showmnet'] = 'Show mnet providers';
 $string['showmnet_desc'] = 'If mnet is enabled, these options will be included on the local login page.';
+$string['template'] = 'Login page template';
+$string['template_desc'] = 'The template used for rendering the login page can be overridden here. Any styles required should be added inline to the template.';
+$string['cachedef_renderedlogin'] = 'Cache for the rendered data for the frontpage based on configuration.';
+

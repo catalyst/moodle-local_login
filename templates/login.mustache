@@ -1,0 +1,81 @@
+{{!
+   This file is part of Moodle - http://moodle.org
+
+   Moodle is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   Moodle is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_login/login
+
+    Local_login default login page template.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    *
+
+    Example context (json):
+    {
+        "idplist": [
+            {
+                "auth": "saml2",
+                "name": "SAML2 Login",
+                "url": "https://mysite.com/login/index.php?auth=saml2",
+                "iconurl": "https://mysite.com/pluginfile.php"
+            }
+        ],
+        "manual": {
+            "beforemanual": "The before text",
+            "manualname": "Manual login",
+            "manualurl": "https://mysite.com/login/index.php"
+        },
+        "footer": "Footer text",
+        "header": "Header text",
+        "pageheader": "<p>Header HTML</p>",
+        "pagefooter": "<p>Footer HTML</p>"
+    }
+}}
+{{{pageheader}}}
+<div id="local-login-page">
+    <div class='idp-header'>
+        {{{header}}}
+    </div>
+    <div id="local-login-options" class="idp-login">
+        {{#idplist}}
+            <div class="idp-login container-fluid {{auth}}">
+                <a class="btn btn-secondary btn-block" title="{{name}}" href="{{url}}">
+                    {{#iconurl}}
+                        <img src="{{iconurl}}" width="24" height="24" class="mr-1" alt="Login Icon">
+                    {{/iconurl}}
+                    {{name}}
+                </a>
+            </div>
+        {{/idplist}}
+        {{#manual}}
+            <div class="idp-login container-fluid manual">
+                {{#beforemanual}}
+                    <span class="beforemanual">{{{beforemanual}}}</span>
+                {{/beforemanual}}
+                <a class="btn btn-secondary btn-block" title="{{manualname}}" href="{{manualurl}}">{{manualname}}</a>
+            </div>
+        {{/manual}}
+    </div>
+    <div class='idp-footer'>
+        {{{footer}}}
+    </div>
+</div>
+{{{pagefooter}}}

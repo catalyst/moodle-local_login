@@ -15,17 +15,17 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other meta-data are defined here.
+ * Plugin cache definitions
  *
  * @package     local_login
- * @copyright   2022 Catalyst IT
+ * @copyright   2023 Catalyst IT
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die;
 
-defined('MOODLE_INTERNAL') || die();
+$definitions = [
+    'renderedlogin' => [
+        'mode' => cache_store::MODE_APPLICATION,
+    ]
+];
 
-$plugin->component = 'local_login';
-$plugin->release = '2023113000';
-$plugin->version = 2023113000;
-$plugin->requires = 2020061500;
-$plugin->maturity = MATURITY_STABLE;
