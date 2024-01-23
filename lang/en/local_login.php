@@ -44,7 +44,8 @@ $string['customlogindisabled'] = 'Site settings prevent this page from being use
 $string['backgroundimage'] = 'Background image';
 $string['backgroundimage_desc'] = 'Background image that appears on the local login page.';
 $string['forcelogin'] = 'Force login when accessing site homepage';
-$string['forcelogin_desc'] = 'If the user is accessing the site homepage and the user is not currently logged in, this will redirect them to the login page';
+$string['forcelogin_desc'] = 'If the user is accessing the site homepage and the user is not currently logged in, this will redirect them to the login page. 
+Please note that if you are using a Totara 15+ site, you need to tick forceloginredirect setting below. ';
 $string['forceloginredirect'] = 'Force login page redirect.';
 $string['forceloginredirect_desc'] = 'This setting allow Totara sites to use this without needing to change the csrftoken setting. Currently applicable on Totara 15+ sites. Refer to TL-19365 for details. ';
 $string['autoredirect'] = 'Auto-redirect to a single IDP option';
