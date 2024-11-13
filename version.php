@@ -25,7 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_login';
-$plugin->release = '2023113000';
-$plugin->version = 2023113000;
-$plugin->requires = 2020061500;
+$plugin->release = 2024111400;
+$plugin->version = 2024111400;
+$plugin->requires = 2023100900; // Moodle 4.3.
+$plugin->supported = [403, 405];
 $plugin->maturity = MATURITY_STABLE;
