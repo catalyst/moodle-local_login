@@ -71,32 +71,6 @@ function local_login_backgroundimage() {
     theme_reset_all_caches();
 }
 
-/**
- * Triggers after site config is loaded. It is used to direct user to the custom login page.
- *
- */
-function local_login_after_config() {
-    global $CFG, $FULLME;
-    $noredirect  = optional_param('noredirect', 0, PARAM_BOOL); // Don't redirect.
-    $forceloginredirect = get_config('local_login', 'forceloginredirect');
-    if (!empty($FULLME) && stripos($FULLME, $CFG->wwwroot.'/login/index.php') === 0 && !isloggedin()) {
-        if (!empty($noredirect) && !empty($CFG->alternateloginurl)) {
-             unset($CFG->alternateloginurl);
-        } else if (empty($noredirect) && $forceloginredirect && !data_submitted()) {
-            redirect($CFG->wwwroot.'/local/login/index.php');
-        }
-    }
-    // If forcelogin is enabled then only logged in users can access site homepage.
-    $forcelogin = get_config('local_login', 'forcelogin');
-    $wwwrootpath = parse_url($CFG->wwwroot, PHP_URL_PATH);
-    $fullmepath = !empty($FULLME) ? parse_url($FULLME, PHP_URL_PATH) : '';
-    if (!empty($wwwrootpath)) {
-        $path = str_replace($wwwrootpath, "", $fullmepath);
-    }
-    if ((empty($noredirect) && empty($path) || $path == '/' || $path == '/index.php') && !isloggedin() && $forcelogin == 1  ) {
-        redirect($CFG->wwwroot.'/login/index.php');
-    }
-}
 
 /**
  * Purge the cached rendered login page.
