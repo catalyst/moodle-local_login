@@ -76,13 +76,14 @@ function local_login_backgroundimage() {
  *
  */
 function local_login_after_config() {
-    global $CFG, $FULLME;
+    global $CFG, $FULLME, $SESSION;
     $noredirect  = optional_param('noredirect', 0, PARAM_BOOL); // Don't redirect.
     $forceloginredirect = get_config('local_login', 'forceloginredirect');
     if (!empty($FULLME) && stripos($FULLME, $CFG->wwwroot.'/login/index.php') === 0 && !isloggedin()) {
+        $noredirect = $noredirect || data_submitted() || !empty($SESSION->loginerrormsg);
         if (!empty($noredirect) && !empty($CFG->alternateloginurl)) {
              unset($CFG->alternateloginurl);
-        } else if (empty($noredirect) && $forceloginredirect && !data_submitted()) {
+        } else if (empty($noredirect) && $forceloginredirect) {
             redirect($CFG->wwwroot.'/local/login/index.php');
         }
     }
