@@ -24,6 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// phpcs:ignore moodle.Files.RequireLogin.Missing
 require_once('../../config.php');
 require_once($CFG->dirroot.'/login/lib.php');
 require_once($CFG->libdir.'/authlib.php');

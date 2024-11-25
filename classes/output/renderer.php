@@ -107,7 +107,8 @@ class renderer extends \plugin_renderer_base {
                 $manual->beforemanual = format_text($config->beforemanualtext);
             }
 
-            $name = !empty($config->custommanualtext) ? format_string($config->custommanualtext) : get_string('manuallogin', 'local_login');
+            $name = !empty($config->custommanualtext) ?
+                format_string($config->custommanualtext) : get_string('manuallogin', 'local_login');
             $manual->manualname = $name;
 
             $mustachecontext->manual = $manual;
