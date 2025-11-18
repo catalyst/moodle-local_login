@@ -98,7 +98,7 @@ class renderer extends \plugin_renderer_base {
 
             // Now display link to manual login page.
             $urlparams = [
-                'noredirect' => 1,
+                'loginredirect' => 0,
                 'passive' => 'off' // Prevent Saml2 from triggering passive check on manual login page.
             ];
             $manual->manualurl = new \moodle_url('/login/index.php', $urlparams);
