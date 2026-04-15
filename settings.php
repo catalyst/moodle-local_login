@@ -25,57 +25,71 @@
 defined('MOODLE_INTERNAL') || die;
 require_once(__DIR__ . '/lib.php');
 
-if ($hassiteconfig) { // Needs this condition or there is error on login page.
-    $settings = new admin_settingpage(
-        'local_login_settings', get_string('settings', 'local_login'));
-    $settingarr = [];
+use core\setting\part\page;
+use core\setting\type\checkbox;
+use core\setting\type\textarea;
+use core\setting\type\text;
+use core\setting\type\storedfile;
 
-    $settingarr[] = new admin_setting_configcheckbox('local_login/showmanual',
+if ($hassiteconfig) { // Needs this condition or there is error on login page.
+    $settings = new page(
+        'local_login_settings', get_string('settings', 'local_login'));
+
+    $settings->add(new checkbox('local_login/showmanual',
         get_string('showmanual', 'local_login'),
         get_string('showmanual_desc', 'local_login'),
-        1);
+        1)
+    );
 
-    $settingarr[] = new admin_setting_configtext('local_login/custommanualtext',
+    $settings->add(new text('local_login/custommanualtext',
         get_string('custommanualtext', 'local_login'),
         get_string('custommanualtext_desc', 'local_login'),
-        '');
+        '')
+    );
 
-    $settingarr[] = new admin_setting_configcheckbox('local_login/forcelogin',
+    $settings->add(new checkbox('local_login/forcelogin',
         get_string('forcelogin', 'local_login'),
         get_string('forcelogin_desc', 'local_login'),
-         0);
+         0)
+    );
 
-    $settingarr[] = new admin_setting_configcheckbox('local_login/forceloginredirect',
+    $settings->add(new checkbox('local_login/forceloginredirect',
         get_string('forceloginredirect', 'local_login'),
         get_string('forceloginredirect_desc', 'local_login'),
-         0);
+         0)
+    );
 
-    $settingarr[] = new admin_setting_configcheckbox('local_login/autoredirect',
+    $settings->add(new checkbox('local_login/autoredirect',
         get_string('autoredirect', 'local_login'),
         get_string('autoredirect_desc', 'local_login'),
-         0);
+         0)
+    );
 
-    $settingarr[] = new admin_setting_configcheckbox('local_login/showmnet',
+    $settings->add(new checkbox('local_login/showmnet',
         get_string('showmnet', 'local_login'),
         get_string('showmnet_desc', 'local_login'),
-        0);
+        0)
+    );
 
-    $settingarr[] = new admin_setting_configtextarea('local_login/headertext',
+    $settings->add(new textarea('local_login/headertext',
         get_string('headertext', 'local_login'),
         get_string('headertext_desc', 'local_login'),
-        '');
+        '')
+    );
 
-    $settingarr[] = new admin_setting_configtextarea('local_login/beforemanualtext',
+    $settings->add(new textarea('local_login/beforemanualtext',
         get_string('beforemanualtext', 'local_login'),
         get_string('beforemanualtext_desc', 'local_login'),
-        '');
+        '')
+    );
 
-    $settingarr[] = new admin_setting_configtextarea('local_login/footertext',
+    $settings->add(new textarea('local_login/footertext',
         get_string('footertext', 'local_login'),
         get_string('footertext_desc', 'local_login'),
-        '');
+        '')
+    );
 
-    $backgroundimage = new admin_setting_configstoredfile(
+    $backgroundimage = new storedfile(
         'local_login/backgroundimage',
         get_string('backgroundimage', 'local_login'),
         get_string('backgroundimage_desc', 'local_login'),
@@ -85,7 +99,7 @@ if ($hassiteconfig) { // Needs this condition or there is error on login page.
 
     // Load the contents of the minimal template file to be the default of the config.
     $templatecontents = file_get_contents($CFG->dirroot . \local_login\output\renderer::DEFAULT_TEMPLATE_PATH);
-    $settingarr[] = new admin_setting_configtextarea('local_login/template',
+    $settingarr[] = new textarea('local_login/template',
         get_string('template', 'local_login'),
         get_string('template_desc', 'local_login'),
         $templatecontents
@@ -96,6 +110,7 @@ if ($hassiteconfig) { // Needs this condition or there is error on login page.
         $setting->set_updatedcallback('local_login_template_updated');
         $settings->add($setting);
     }
+
 
     $ADMIN->add('localplugins', $settings);
 }
